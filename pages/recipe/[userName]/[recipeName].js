@@ -1,7 +1,8 @@
 export default function Home(props) {
   return (
     <div>
-      <h1>{props.recipeId}</h1>
+      <h1>{props.recipeName}</h1>
+      <p>{props.userName}</p>
     </div>
   );
 }
@@ -13,17 +14,20 @@ export async function getStaticPaths() {
       // these are pre loaded, faster than other paths
       {
         params: {
-          recipeId: "ChickenSandwich",
+          recipeName: "ChickenSandwich",
+          userName: "Eric",
         },
       },
       {
         params: {
-          recipeId: "ApplePie",
+          recipeName: "ApplePie",
+          userName: "Eric",
         },
       },
       {
         params: {
-          recipeId: "Muffin",
+          recipeName: "Muffin",
+          userName: "Eric",
         },
       },
     ],
@@ -31,11 +35,13 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context) {
-  const recipeId = context.params.recipeId;
+  const recipeName = context.params.recipeName;
+  const userName = context.params.userName;
 
   return {
     props: {
-      recipeId: recipeId,
+      recipeName: recipeName,
+      userName: userName,
     },
   };
 }

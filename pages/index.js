@@ -9,13 +9,13 @@ export default function Home() {
       <div className={styles.main}>
         <ul>
           <p className={styles.link}>
-            <Link href="/recipe/ChickenSandwich">Chicken Sandwich</Link>
+            <Link href="/recipe/Eric/ChickenSandwich">Chicken Sandwich</Link>
           </p>
           <p className={styles.link}>
-            <Link href="/recipe/ApplePie">Apple Pie</Link>
+            <Link href="/recipe/Eric/ApplePie">Apple Pie</Link>
           </p>
           <p className={styles.link}>
-            <Link href="/recipe/Muffins">Muffins</Link>
+            <Link href="/recipe/Eric/Muffins">Muffins</Link>
           </p>
         </ul>
       </div>
