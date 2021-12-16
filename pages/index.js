@@ -26,7 +26,7 @@ export default function Home() {
             <Link href="/recipe/Eric/ApplePie">Apple Pie</Link>
           </p>
           <p className={styles.link}>
-            <Link href="/recipe/Eric/Muffins">Muffins</Link>
+            <Link href="/recipe/Eric/Muffin">Muffin</Link>
           </p>
         </ul>
       </div>

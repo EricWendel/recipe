@@ -8,3 +8,4 @@
 
     DBUSER= database access username
     DBPASS= database access password
+    DBNAME= name of database
