@@ -1,9 +1,18 @@
+import Head from "next/head";
+import { Fragment } from "react/cjs/react.production.min";
+
 export default function Home(props) {
   return (
-    <div>
-      <h1>{props.recipeName}</h1>
-      <p>{props.userName}</p>
-    </div>
+    <Fragment>
+      <Head>
+        <title>{props.recipeName}</title>
+        <meta name="description" content="A new recipe to try today!" />
+      </Head>
+      <div>
+        <h1>{props.recipeName}</h1>
+        <p>{props.userName}</p>
+      </div>
+    </Fragment>
   );
 }
 

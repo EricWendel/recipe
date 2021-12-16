@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment } from "react/cjs/react.production.min";
@@ -26,6 +27,10 @@ export default function RecipeMaker() {
 
   return (
     <Fragment>
+      <Head>
+        <title>New Recipe</title>
+        <meta name="description" content="Publish your recipe here." />
+      </Head>
       <h1 className={styles.title}>New Recipe</h1>
       <form className={styles.main} onSubmit={addRecipe}>
         <label>

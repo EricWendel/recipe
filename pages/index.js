@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Link from "next/link";
 import { Fragment } from "react/cjs/react.production.min";
 import styles from "../styles/Home.module.css";
@@ -5,6 +6,10 @@ import styles from "../styles/Home.module.css";
 export default function Home() {
   return (
     <Fragment>
+      <Head>
+        <title>Recipes</title>
+        <meta name="description" content="View and publish new recipes!" />
+      </Head>
       <h1 className={styles.title}>Recipe Home</h1>
       <div className={styles.center}>
         <button className={styles.btn}>
