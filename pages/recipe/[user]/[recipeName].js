@@ -20,15 +20,7 @@ export default function Home(props) {
 }
 
 export async function getStaticPaths() {
-  const client = await MongoClient.connect(
-    "mongodb+srv://" +
-      process.env.DBUSER +
-      ":" +
-      process.env.DBPASS +
-      "@" +
-      process.env.DBNAME +
-      ".xrcz2.mongodb.net/recipes?retryWrites=true&w=majority"
-  );
+  const client = await MongoClient.connect(process.env.MONGODB_URI);
   const db = client.db();
   const collection = db.collection("recipes");
   const recipes = await collection
@@ -48,15 +40,7 @@ export async function getStaticProps(context) {
   const recipeName = context.params.recipeName;
   const user = context.params.user;
 
-  const client = await MongoClient.connect(
-    "mongodb+srv://" +
-      process.env.DBUSER +
-      ":" +
-      process.env.DBPASS +
-      "@" +
-      process.env.DBNAME +
-      ".xrcz2.mongodb.net/recipes?retryWrites=true&w=majority"
-  );
+  const client = await MongoClient.connect(process.env.MONGODB_URI);
   const db = client.db();
   const collection = db.collection("recipes");
   const recipe = await collection.findOne({

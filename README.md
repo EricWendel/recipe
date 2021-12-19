@@ -6,9 +6,7 @@
 
 ## .env
 
-    DBUSER= database access username
-    DBPASS= database access password
-    DBNAME= name of database
+    MONGODB_URI= MongoDB connection string
     GOOGLE_CLIENT_ID= Google Cloud app id for oauth
     GOOGLE_CLIENT_SECRET= Google Cloud app secret for oath
     NEXTAUTH_URL= Url of website once deployed
