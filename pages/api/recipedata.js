@@ -1,8 +1,8 @@
 export default function handler(req, res) {
   if (req.method === "GET") {
     const { user, recipeName } = req.body;
+    // NOT IN USE, FUNCTION INSIDE PAGE IS BETTER, MAY USE THIS LATER
     const dataStructure = [
-      // These will be from a database later
       {
         id: "0",
         title: "Chicken Sandwich",

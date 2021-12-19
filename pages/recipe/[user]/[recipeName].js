@@ -64,7 +64,6 @@ export async function getStaticProps(context) {
     user: user,
   });
   client.close();
-  console.log(recipe);
 
   return {
     props: {

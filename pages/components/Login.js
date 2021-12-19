@@ -6,14 +6,14 @@ export default function Login() {
     return (
       <>
         Signed in as {session.user.email} <br />
-        <button onClick={() => signOut()}>Sign out</button>
+        <button onClick={() => signOut('google')}>Sign out</button>
       </>
     )
   }
   return (
     <>
       Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
+      <button onClick={() => signIn('google')}>Sign in</button>
     </>
   )
 }

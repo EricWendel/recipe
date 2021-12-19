@@ -21,7 +21,6 @@ export default async function handler(req, res) {
       image: image,
       desc: desc,
     });
-    console.log(result);
     client.close();
 
     res.status(201).json({
