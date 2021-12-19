@@ -29,7 +29,7 @@ export async function getStaticPaths() {
   client.close();
 
   return {
-    fallback: false, // true: allow any path, false: 404 error for other paths
+    fallback: "blocking", // true: allow any path, false: 404 error for other paths
     paths: recipes.map((recipe) => ({
       params: { recipeName: recipe.recipeName, user: recipe.user },
     })),
@@ -47,16 +47,29 @@ export async function getStaticProps(context) {
     recipeName: recipeName,
     user: user,
   });
-  client.close();
-
-  return {
-    props: {
-      title: recipe.title,
-      recipeName: recipe.title.replace(/ /g, ""),
-      user: recipe.user,
-      image: recipe.image,
-      desc: recipe.desc,
-    },
-    revalidate: 1,
-  };
+  if (!recipe) {
+    client.close();
+    return {
+      props: {
+        title: "Page not found",
+        recipeName: "PageNotFound",
+        user: "404",
+        image: "404",
+        desc: "404",
+      },
+      revalidate: 1,
+    };
+  } else {
+    client.close();
+    return {
+      props: {
+        title: recipe.title,
+        recipeName: recipe.title.replace(/ /g, ""),
+        user: recipe.user,
+        image: recipe.image,
+        desc: recipe.desc,
+      },
+      revalidate: 1,
+    };
+  }
 }
