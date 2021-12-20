@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment } from "react/cjs/react.production.min";
 import styles from "../styles/RecipeMaker.module.css";
+import { useSession, getSession } from "next-auth/react";
 
 export default function RecipeMaker() {
   const router = useRouter();
@@ -20,10 +21,18 @@ export default function RecipeMaker() {
         desc: event.target.desc.value,
       }),
     });
-    //const result = await res.json();
-    //console.log(result);
     router.push("/");
   };
+
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return <p>Loading...</p>;
+  }
+
+  if (status === "unauthenticated") {
+    return <h1>You must login to post a recipe</h1>;
+  }
 
   return (
     <Fragment>

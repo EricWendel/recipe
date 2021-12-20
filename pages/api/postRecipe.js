@@ -1,7 +1,9 @@
 import { MongoClient } from "mongodb";
+import { getSession } from "next-auth/react";
 
 export default async function handler(req, res) {
-  if (req.method === "POST") {
+  const session = await getSession({ req });
+  if (req.method === "POST" && session) {
     const { title, user, image, desc } = req.body;
     const client = await MongoClient.connect(process.env.MONGODB_URI);
     const db = client.db();
@@ -15,6 +17,8 @@ export default async function handler(req, res) {
     });
     client.close();
 
+    console.log("success");
+
     res.status(201).json({
       title: title,
       recipeName: title.replace(/ /g, ""),
@@ -22,5 +26,7 @@ export default async function handler(req, res) {
       image: image,
       desc: desc,
     });
+  } else {
+    res.status(401).json({});
   }
 }

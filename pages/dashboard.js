@@ -9,7 +9,7 @@ export default function dashboard() {
   }
 
   if (status === "unauthenticated") {
-    return <p>You must login to view your dashboard</p>;
+    return <h1>You must login to view your dashboard</h1>;
   }
 
   return (
