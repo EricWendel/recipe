@@ -8,27 +8,36 @@ import { useSession, getSession } from "next-auth/react";
 export default function RecipeMaker() {
   const router = useRouter();
   const addRecipe = async (event) => {
-    event.preventDefault();
-    const res = await fetch("/api/postRecipe", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: event.target.title.value,
-        user: event.target.user.value,
-        image: event.target.image.value,
-        desc: event.target.desc.value,
-      }),
-    });
-    router.push("/");
+    if (
+      event.target.title.value != "" &&
+      event.target.desc.value != "" &&
+      event.target.image.value != ""
+    ) {
+      event.preventDefault();
+      const res = await fetch("/api/postRecipe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: event.target.title.value,
+          user: session.user.name,
+          email: session.user.email,
+          image: event.target.image.value,
+          desc: event.target.desc.value,
+        }),
+      });
+    } else {
+      alert("Cannot leave fields blank");
+    }
+    router.push("/dashboard");
   };
 
   const { data: session, status } = useSession();
 
-  if (status === "loading") {
-    return <p>Loading...</p>;
-  }
+  // if (status === "loading") {
+  //   return <p>Loading...</p>;
+  // }
 
   if (status === "unauthenticated") {
     return <h1>You must login to post a recipe</h1>;
@@ -45,10 +54,6 @@ export default function RecipeMaker() {
         <label>
           Title
           <input name="title" type="text" className={styles.inputBox} />
-        </label>
-        <label>
-          User
-          <input name="user" type="text" className={styles.inputBox} />
         </label>
         <label>
           Image Link
