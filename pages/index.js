@@ -12,11 +12,6 @@ export default function Home() {
         <meta name="description" content="View and publish new recipes!" />
       </Head>
       <h1 className={styles.title}>Recipe Home</h1>
-      <div className={styles.center}>
-        <button className={styles.btn}>
-          <Link href="/recipeMaker">Make a Recipe</Link>
-        </button>
-      </div>
 
       <div className={styles.center}>
         <button className={styles.btn}>
