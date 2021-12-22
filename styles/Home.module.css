@@ -11,13 +11,19 @@
 }
 
 .center {
-  display: flex;
-  justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .btn {
   margin: 40px;
   line-height: 1.15;
   font-size: 2rem;
+}
+
+.img {
+  height: 50px;
+  width: 50px;
+  overflow: hidden;
+  margin-left: 10px;
 }
