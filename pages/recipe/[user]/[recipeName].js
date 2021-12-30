@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { Fragment } from "react/cjs/react.production.min";
-import { MongoClient } from "mongodb";
+import { prisma } from "../../../db/index.ts";
 
 export default function Home(props) {
   return (
@@ -20,13 +20,7 @@ export default function Home(props) {
 }
 
 export async function getStaticPaths() {
-  const client = await MongoClient.connect(process.env.MONGODB_URI);
-  const db = client.db();
-  const collection = db.collection("recipes");
-  const recipes = await collection
-    .find({}, { recipeName: 1, user: 1 })
-    .toArray();
-  client.close();
+  const recipes = await prisma.recipe.findMany();
 
   return {
     fallback: "blocking", // true: allow any path, false: 404 error for other paths
@@ -40,15 +34,14 @@ export async function getStaticProps(context) {
   const recipeName = context.params.recipeName;
   const user = context.params.user;
 
-  const client = await MongoClient.connect(process.env.MONGODB_URI);
-  const db = client.db();
-  const collection = db.collection("recipes");
-  const recipe = await collection.findOne({
-    recipeName: recipeName,
-    user: user,
+  const recipe = await prisma.recipe.findFirst({
+    where: {
+      recipeName: recipeName,
+      user: user,
+    },
   });
+
   if (!recipe) {
-    client.close();
     return {
       props: {
         title: "Page not found",
@@ -60,14 +53,13 @@ export async function getStaticProps(context) {
       revalidate: 1,
     };
   } else {
-    client.close();
     return {
       props: {
         title: recipe.title,
         recipeName: recipe.title.replace(/ /g, ""),
         user: recipe.user,
         image: recipe.image,
-        desc: recipe.desc,
+        desc: recipe.description,
       },
       revalidate: 1,
     };

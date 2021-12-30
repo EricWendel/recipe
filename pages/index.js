@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Fragment } from "react/cjs/react.production.min";
 import styles from "../styles/Home.module.css";
 import Login from "./components/Login.js";
-import { MongoClient } from "mongodb";
+import { prisma } from "../db/index.ts";
 
 export default function Home(props) {
   return (
@@ -42,15 +42,10 @@ function recipeCards(props) {
 }
 
 export async function getStaticProps(context) {
-  const client = await MongoClient.connect(process.env.MONGODB_URI);
-  const db = client.db();
-  const collection = db.collection("recipes");
   let arr = [];
-  const recipe = await collection
-    .find({})
-    .limit(5)
-    .forEach((curr) => {
-      arr.push([curr.title, curr.image, curr.user, curr.recipeName]);
-    });
+  const recipe = await prisma.recipe.findMany({ take: 5 });
+  recipe.forEach((curr) => {
+    arr.push([curr.title, curr.image, curr.user, curr.recipeName]);
+  });
   return { props: { list: arr } };
 }

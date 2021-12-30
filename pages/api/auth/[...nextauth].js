@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
-import clientPromise from "./lib/mongodb.js";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { prisma } from "../../../db/index.ts";
 
 export default NextAuth({
   providers: [
@@ -18,5 +18,5 @@ export default NextAuth({
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
-  adapter: MongoDBAdapter(clientPromise),
+  adapter: PrismaAdapter(prisma),
 });

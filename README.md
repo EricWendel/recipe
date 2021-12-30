@@ -11,3 +11,5 @@
     GOOGLE_CLIENT_SECRET= Google Cloud app secret for oath
     NEXTAUTH_URL= Url of website once deployed
     NEXTAUTH_SECRET= generate and copy/paste using $ openssl rand -base64 32
+    DATABASE_URL= url of postgresql database
+    SHADOW_DATABASE_URL= a second postgress database url
