@@ -14,6 +14,7 @@ datasource db {
 model Recipe {
   id String @id @default(cuid())
   title String 
+  recipeName String
   user String
   email String
   image String

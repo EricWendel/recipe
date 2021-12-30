@@ -1,22 +1,21 @@
-import { MongoClient } from "mongodb";
 import { getSession } from "next-auth/react";
+import { PrismaClient } from "@prisma/client";
 
 export default async function handler(req, res) {
   const session = await getSession({ req });
   if (req.method === "POST" && session) {
     const { title, user, email, image, desc } = req.body;
-    const client = await MongoClient.connect(process.env.MONGODB_URI);
-    const db = client.db();
-    const collection = db.collection("recipes");
-    const result = await collection.insertOne({
-      title: title,
-      recipeName: title.replace(/ /g, ""),
-      user: user,
-      email: email,
-      image: image,
-      desc: desc,
+    const prisma = new PrismaClient();
+    const result = await prisma.recipe.create({
+      data: {
+        title: title,
+        recipeName: title.replace(/ /g, ""),
+        user: user,
+        email: email,
+        image: image,
+        description: desc,
+      },
     });
-    client.close();
 
     res.status(201).json({
       title: title,
@@ -24,7 +23,7 @@ export default async function handler(req, res) {
       user: user,
       email: email,
       image: image,
-      desc: desc,
+      description: desc,
     });
   } else {
     res.status(401).json({});
