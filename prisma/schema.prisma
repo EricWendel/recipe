@@ -19,6 +19,7 @@ model Recipe {
   email String
   image String
   description String
+  rating Float
 }
 
 model Account {

@@ -13,6 +13,7 @@ export default async function handler(req, res) {
         email: email,
         image: image,
         description: desc,
+        rating: 0.0,
       },
     });
 
@@ -23,6 +24,7 @@ export default async function handler(req, res) {
       email: email,
       image: image,
       description: desc,
+      rating: 0.0,
     });
   } else {
     res.status(401).json({});

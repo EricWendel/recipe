@@ -41,9 +41,12 @@ function recipeCards(props) {
   });
 }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps() {
   let arr = [];
-  const recipe = await prisma.recipe.findMany({ take: 5 });
+  const recipe = await prisma.recipe.findMany({
+    take: 5,
+    orderBy: { rating: "desc" },
+  });
   recipe.forEach((curr) => {
     arr.push([curr.title, curr.image, curr.user, curr.recipeName]);
   });

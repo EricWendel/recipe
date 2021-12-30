@@ -14,6 +14,7 @@ export default function Home(props) {
         <p>Posted by: {props.user}</p>
         <img src={props.image} />
         <p>{props.desc}</p>
+        <p>rating: {props.rating}</p>
       </div>
     </Fragment>
   );
@@ -49,6 +50,7 @@ export async function getStaticProps(context) {
         user: "404",
         image: "404",
         desc: "404",
+        rating: 404,
       },
       revalidate: 1,
     };
@@ -60,6 +62,7 @@ export async function getStaticProps(context) {
         user: recipe.user,
         image: recipe.image,
         desc: recipe.description,
+        rating: recipe.rating,
       },
       revalidate: 1,
     };
