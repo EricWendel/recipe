@@ -4,6 +4,7 @@ import { Fragment } from "react/cjs/react.production.min";
 import Login from "./components/Login.js";
 import { prisma } from "../db/index.ts";
 import Navbar from "./components/Navbar.js";
+import Card from "./components/Card.js";
 
 export default function Home(props) {
   return (
@@ -15,7 +16,9 @@ export default function Home(props) {
       <Navbar />
       <div className="flex justify-center mt-6">
         <div>
-          <h1 className="flex justify-center text-4xl">Top 5 Recipes</h1>
+          <h1 className="flex justify-center text-4xl bold font-bold">
+            Top 5 Recipes
+          </h1>
           {recipeCards(props)}
         </div>
       </div>
@@ -27,12 +30,7 @@ function recipeCards(props) {
   return props.list.map((r) => {
     let path = "/recipe/" + r[2] + "/" + r[3] + "";
     return (
-      <Fragment>
-        <h1>
-          <Link href={path}>{r[0]}</Link>
-          <img src={r[1]} />
-        </h1>
-      </Fragment>
+      <Card title={r[0]} imglink={r[1]} desc={r[4]} path={path} rating={r[5]} />
     );
   });
 }
@@ -44,7 +42,14 @@ export async function getServerSideProps() {
     orderBy: { rating: "desc" },
   });
   recipe.forEach((curr) => {
-    arr.push([curr.title, curr.image, curr.user, curr.recipeName]);
+    arr.push([
+      curr.title,
+      curr.image,
+      curr.user,
+      curr.recipeName,
+      curr.description,
+      curr.rating,
+    ]);
   });
   return { props: { list: arr } };
 }
