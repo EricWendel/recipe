@@ -1,6 +1,9 @@
 import Link from "next/link";
 
 export default function Card(props) {
+  if (!props.path) {
+    props.path = "/";
+  }
   return (
     <>
       <Link href={props.path}>
