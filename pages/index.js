@@ -19,7 +19,9 @@ export default function Home(props) {
           <h1 className="flex justify-center text-4xl bold font-bold">
             Top 5 Recipes
           </h1>
-          {recipeCards(props)}
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+            {recipeCards(props)}
+          </div>
         </div>
       </div>
     </Fragment>
