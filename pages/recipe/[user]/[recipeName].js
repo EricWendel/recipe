@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { Fragment } from "react/cjs/react.production.min";
 import { prisma } from "../../../db/index.ts";
+import Navbar from "../../components/Navbar";
 
 export default function Home(props) {
   return (
@@ -9,9 +10,10 @@ export default function Home(props) {
         <title>{props.recipeName}</title>
         <meta name="description" content="A new recipe to try today!" />
       </Head>
+      <Navbar />
       <div className="flex justify-center p-4">
         <div>
-          <h1 className="text-6xl my-4">{props.recipeName}</h1>
+          <h1 className="text-6xl mb-4">{props.recipeName}</h1>
           <div className="my-2 mx-1">
             <p className="text-xl">Posted by: {props.user}</p>
             <p className="text-xl">Rating: {props.rating}/5</p>
