@@ -1,9 +1,10 @@
 import Head from "next/head";
 import Link from "next/link";
 import { Fragment } from "react/cjs/react.production.min";
-import styles from "../styles/Home.module.css";
 import Login from "./components/Login.js";
 import { prisma } from "../db/index.ts";
+import Navbar from "./components/Navbar.js";
+import Card from "./components/Card.js";
 
 export default function Home(props) {
   return (
@@ -12,16 +13,16 @@ export default function Home(props) {
         <title>Recipes</title>
         <meta name="description" content="View and publish new recipes!" />
       </Head>
-      <h1 className={styles.title}>Recipe Home</h1>
-      <div className={styles.center}>
-        <button className={styles.btn}>
-          <Link href="/dashboard">Dashboard</Link>
-        </button>
-      </div>
-      <div className={styles.center}>
-        <Login />
-        <h1>Top 5 Recipes</h1>
-        {recipeCards(props)}
+      <Navbar />
+      <div className="flex justify-center mt-6">
+        <div>
+          <h1 className="flex justify-center text-4xl bold font-bold">
+            Top 5 Recipes
+          </h1>
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+            {recipeCards(props)}
+          </div>
+        </div>
       </div>
     </Fragment>
   );
@@ -31,12 +32,7 @@ function recipeCards(props) {
   return props.list.map((r) => {
     let path = "/recipe/" + r[2] + "/" + r[3] + "";
     return (
-      <Fragment>
-        <h1 className={styles.link}>
-          <Link href={path}>{r[0]}</Link>
-          <img src={r[1]} className={styles.img} />
-        </h1>
-      </Fragment>
+      <Card title={r[0]} imglink={r[1]} desc={r[4]} path={path} rating={r[5]} />
     );
   });
 }
@@ -48,7 +44,14 @@ export async function getServerSideProps() {
     orderBy: { rating: "desc" },
   });
   recipe.forEach((curr) => {
-    arr.push([curr.title, curr.image, curr.user, curr.recipeName]);
+    arr.push([
+      curr.title,
+      curr.image,
+      curr.user,
+      curr.recipeName,
+      curr.description,
+      curr.rating,
+    ]);
   });
   return { props: { list: arr } };
 }

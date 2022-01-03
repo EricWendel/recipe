@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { Fragment } from "react/cjs/react.production.min";
 import { prisma } from "../../../db/index.ts";
+import Navbar from "../../components/Navbar";
 
 export default function Home(props) {
   return (
@@ -9,12 +10,19 @@ export default function Home(props) {
         <title>{props.recipeName}</title>
         <meta name="description" content="A new recipe to try today!" />
       </Head>
-      <div>
-        <h1>{props.recipeName}</h1>
-        <p>Posted by: {props.user}</p>
-        <img src={props.image} />
-        <p>{props.desc}</p>
-        <p>rating: {props.rating}</p>
+      <Navbar />
+      <div className="flex justify-center p-4">
+        <div>
+          <h1 className="text-6xl mb-4">{props.recipeName}</h1>
+          <div className="my-2 mx-1">
+            <p className="text-xl">Posted by: {props.user}</p>
+            <p className="text-xl">Rating: {props.rating}/5</p>
+            <p className="text-m my-4">{props.desc}</p>
+          </div>
+          <img className="max-h-80 rounded-xl object-cover" src={props.image} />
+          <h1 className="text-4xl my-4">Ingredients...</h1>
+          <h1 className="text-4xl my-4">Directions...</h1>
+        </div>
       </div>
     </Fragment>
   );
