@@ -14,7 +14,7 @@ export default function Home(props) {
       <div className="flex justify-center mt-6">
         <div>
           <h1 className="flex justify-center text-4xl bold font-bold">
-            Top 5 Recipes
+            Top Recipes
           </h1>
           <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
             {recipeCards(props)}
@@ -37,7 +37,7 @@ function recipeCards(props) {
 export async function getServerSideProps() {
   let arr = [];
   const recipe = await prisma.recipe.findMany({
-    take: 5,
+    take: 10,
     orderBy: { rating: "desc" },
   });
   recipe.forEach((curr) => {
