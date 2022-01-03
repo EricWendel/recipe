@@ -1,9 +1,8 @@
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment } from "react/cjs/react.production.min";
-import styles from "../styles/RecipeMaker.module.css";
 import { useSession, getSession } from "next-auth/react";
+import Navbar from "./components/Navbar";
 
 export default function RecipeMaker() {
   const router = useRouter();
@@ -40,7 +39,14 @@ export default function RecipeMaker() {
   // }
 
   if (status === "unauthenticated") {
-    return <h1>You must login to post a recipe</h1>;
+    return (
+      <Fragment>
+        <Navbar />
+        <h1 className="flex justify-center text-6xl my-6 text-center">
+          You must login to post a recipe
+        </h1>
+      </Fragment>
+    );
   }
 
   return (
@@ -49,22 +55,41 @@ export default function RecipeMaker() {
         <title>New Recipe</title>
         <meta name="description" content="Publish your recipe here." />
       </Head>
-      <h1 className={styles.title}>New Recipe</h1>
-      <form className={styles.main} onSubmit={addRecipe}>
-        <label>
-          Title
-          <input name="title" type="text" className={styles.inputBox} />
-        </label>
-        <label>
-          Image Link
-          <input name="image" type="text" className={styles.inputBox} />
-        </label>
-        <label>
-          Description
-          <textarea name="desc" type="text" className={styles.inputBox} />
-        </label>
-        <button type="submit">Publish</button>
-      </form>
+      <Navbar />
+      <h1 className="text-center text-4xl m-6">New Recipe</h1>
+      <div className="w-full flex justify-center">
+        <form
+          className="border border-gray-500 p-10 shadow-lg w-11/12 md:w-1/2 lg:w-1/3 rounded-md"
+          onSubmit={addRecipe}
+        >
+          <label className="text-md">Title</label>
+          <input
+            name="title"
+            type="text"
+            className="border border-gray-500 p-1 w-full mb-6  shadow-md rounded-md focus:outline-none focus:border-teal-400 focus:ring-2"
+          />
+          <label className="text-md">Image Link</label>
+          <input
+            name="image"
+            type="text"
+            className="border border-gray-500 p-1 w-full mb-6  shadow-md rounded-md focus:outline-none focus:border-teal-400 focus:ring-2"
+          />
+          <label className="text-md">Description</label>
+          <textarea
+            name="desc"
+            type="text"
+            className="border border-gray-500 p-1 w-full mb-6  shadow-md rounded-md focus:outline-none focus:border-teal-400 focus:ring-2"
+          />
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="h-10 px-6 font-semibold rounded-lg border border-gray-500 w-1/2"
+            >
+              Publish
+            </button>
+          </div>
+        </form>
+      </div>
     </Fragment>
   );
 }
