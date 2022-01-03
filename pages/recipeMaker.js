@@ -40,17 +40,17 @@ export default function RecipeMaker() {
 
   if (status === "unauthenticated") {
     return (
-      <Fragment>
+      <div className="bg-gray-100 min-h-screen">
         <Navbar />
         <h1 className="flex justify-center text-6xl my-6 text-center">
           You must login to post a recipe
         </h1>
-      </Fragment>
+      </div>
     );
   }
 
   return (
-    <Fragment>
+    <div className="bg-gray-100 min-h-screen">
       <Head>
         <title>New Recipe</title>
         <meta name="description" content="Publish your recipe here." />
@@ -59,7 +59,7 @@ export default function RecipeMaker() {
       <h1 className="text-center text-4xl m-6">New Recipe</h1>
       <div className="w-full flex justify-center">
         <form
-          className="border border-gray-500 p-10 shadow-lg w-11/12 md:w-1/2 lg:w-1/3 rounded-md"
+          className="border border-gray-500 p-10 shadow-lg w-11/12 md:w-1/2 lg:w-1/3 rounded-md bg-white"
           onSubmit={addRecipe}
         >
           <label className="text-md">Title</label>
@@ -90,6 +90,6 @@ export default function RecipeMaker() {
           </div>
         </form>
       </div>
-    </Fragment>
+    </div>
   );
 }

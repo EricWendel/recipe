@@ -1,14 +1,11 @@
 import Head from "next/head";
-import Link from "next/link";
-import { Fragment } from "react/cjs/react.production.min";
-import Login from "./components/Login.js";
 import { prisma } from "../db/index.ts";
 import Navbar from "./components/Navbar.js";
 import Card from "./components/Card.js";
 
 export default function Home(props) {
   return (
-    <Fragment>
+    <div className="bg-gray-100">
       <Head>
         <title>Recipes</title>
         <meta name="description" content="View and publish new recipes!" />
@@ -24,7 +21,7 @@ export default function Home(props) {
           </div>
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 }
 

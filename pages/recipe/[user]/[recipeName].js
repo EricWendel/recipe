@@ -5,7 +5,7 @@ import Navbar from "../../components/Navbar";
 
 export default function Home(props) {
   return (
-    <Fragment>
+    <div className="bg-gray-100 min-h-screen">
       <Head>
         <title>{props.recipeName}</title>
         <meta name="description" content="A new recipe to try today!" />
@@ -19,12 +19,15 @@ export default function Home(props) {
             <p className="text-xl">Rating: {props.rating}/5</p>
             <p className="text-m my-4">{props.desc}</p>
           </div>
-          <img className="max-h-80 rounded-xl object-cover" src={props.image} />
+          <img
+            className="max-h-80 rounded-xl object-cover shadow-md"
+            src={props.image}
+          />
           <h1 className="text-4xl my-4">Ingredients...</h1>
           <h1 className="text-4xl my-4">Directions...</h1>
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 }
 

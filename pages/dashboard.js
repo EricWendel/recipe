@@ -9,34 +9,36 @@ export default function Dashboard() {
 
   if (status === "loading") {
     return (
-      <Fragment>
+      <div className="bg-gray-100 min-h-screen">
         <Head>
           <title>Dashboard</title>
           <meta name="description" content="View and publish new recipes!" />
         </Head>
         <Navbar />
         <h1 className="">Loading...</h1>
-      </Fragment>
+      </div>
     );
   }
 
   if (status === "unauthenticated") {
     return (
-      <Fragment>
+      <div className="bg-gray-100 min-h-screen">
         <Head>
           <title>Dashboard</title>
           <meta name="description" content="View and publish new recipes!" />
         </Head>
         <Navbar />
-        <h1 className="flex justify-center text-6xl my-6 text-center">
-          You must login to view your dashboard
-        </h1>
-      </Fragment>
+        <div className="bg-gray-100">
+          <h1 className="flex justify-center text-6xl my-6 text-center">
+            You must login to view your dashboard
+          </h1>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Fragment>
+    <div className="bg-gray-100 min-h-screen">
       <Head>
         <title>Dashboard</title>
         <meta name="description" content="View and publish new recipes!" />
@@ -50,6 +52,6 @@ export default function Dashboard() {
           <Link href="/recipeMaker">Make a Recipe</Link>
         </button>
       </div>
-    </Fragment>
+    </div>
   );
 }
