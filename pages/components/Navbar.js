@@ -7,6 +7,7 @@ export default function Navbar() {
     <>
       <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-4 sticky top-0 z-50">
         <div className="flex items-center flex-shrink-0 text-white mr-6">
+          <img className="h-10 w-10" src="/recipeLogoTransparent.png" />
           <span className="font-semibold text-xl">Recipes</span>
         </div>
         <div className="block md:hidden">
