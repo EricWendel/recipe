@@ -29,7 +29,14 @@ function recipeCards(props) {
   return props.list.map((r) => {
     let path = "/recipe/" + r[2] + "/" + r[3] + "";
     return (
-      <Card title={r[0]} imglink={r[1]} desc={r[4]} path={path} rating={r[5]} />
+      <Card
+        key={r[0]}
+        title={r[0]}
+        imglink={r[1]}
+        desc={r[4]}
+        path={path}
+        rating={r[5]}
+      />
     );
   });
 }
