@@ -1,9 +1,11 @@
 import Head from "next/head";
-import { prisma } from "../db/index.ts";
+import { prisma } from "../db/index";
 import Navbar from "./components/Navbar.js";
 import Card from "./components/Card.js";
+import { GetServerSideProps, NextPage } from "next";
+import { Recipe } from "@prisma/client";
 
-export default function Home(props) {
+const Home: NextPage<{ recipes: Recipe[] }> = ({ recipes }) => {
   return (
     <div className="bg-gray-100">
       <Head>
@@ -17,45 +19,34 @@ export default function Home(props) {
             Top Recipes
           </h1>
           <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-            {recipeCards(props)}
+            {recipeCards(recipes)}
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
+export default Home;
 
-function recipeCards(props) {
-  return props.list.map((r) => {
-    let path = "/recipe/" + r[2] + "/" + r[3] + "";
+function recipeCards(recipes: Recipe[]) {
+  return recipes.map((r) => {
     return (
       <Card
-        key={r[0]}
-        title={r[0]}
-        imglink={r[1]}
-        desc={r[4]}
-        path={path}
-        rating={r[5]}
+        key={r.title}
+        title={r.title}
+        imglink={r.image}
+        desc={r.description}
+        path={"/recipe/" + r.user + "/" + r.title + ""}
+        rating={r.rating}
       />
     );
   });
 }
 
-export async function getServerSideProps() {
-  let arr = [];
-  const recipe = await prisma.recipe.findMany({
+export const getServerSideProps: GetServerSideProps = async () => {
+  const recipes: Recipe[] = await prisma.recipe.findMany({
     take: 10,
     orderBy: { rating: "desc" },
   });
-  recipe.forEach((curr) => {
-    arr.push([
-      curr.title,
-      curr.image,
-      curr.user,
-      curr.recipeName,
-      curr.description,
-      curr.rating,
-    ]);
-  });
-  return { props: { list: arr } };
-}
+  return { props: { recipes } };
+};
