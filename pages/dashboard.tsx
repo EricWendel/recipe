@@ -1,12 +1,13 @@
 import { useSession, getSession } from "next-auth/react";
 import Link from "next/link";
-import { Fragment } from "react";
 import Head from "next/head";
 import Navbar from "./components/Navbar";
 import Card from "./components/Card";
-import { prisma } from "../db/index.ts";
+import { prisma } from "../db/index";
+import { GetServerSideProps, NextPage } from "next";
+import { Recipe } from "@prisma/client";
 
-export default function Dashboard(props) {
+const Dashboard: NextPage<{ recipes: Recipe[] }> = ({ recipes }) => {
   const { data: session, status } = useSession();
   if (status === "loading") {
     return (
@@ -20,7 +21,7 @@ export default function Dashboard(props) {
       </div>
     );
   }
-
+  //Not logged in
   if (status === "unauthenticated") {
     return (
       <div className="bg-gray-100 min-h-screen">
@@ -37,7 +38,7 @@ export default function Dashboard(props) {
       </div>
     );
   }
-
+  // Logged in
   return (
     <div className="bg-gray-100 min-h-screen">
       <Head>
@@ -59,52 +60,41 @@ export default function Dashboard(props) {
             Your Recipes
           </h1>
           <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-            {recipeCards(props)}
+            {recipeCards(recipes)}
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
+export default Dashboard;
 
-function recipeCards(props) {
-  return props.list.map((r) => {
-    let path = "/recipe/" + r[2] + "/" + r[3] + "";
+function recipeCards(recipes: Recipe[]) {
+  return recipes.map((r) => {
     return (
       <Card
-        key={r[0]}
-        title={r[0]}
-        imglink={r[1]}
-        desc={r[4]}
-        path={path}
-        rating={r[5]}
+        key={r.title}
+        title={r.title}
+        imglink={r.image}
+        desc={r.description}
+        path={"/recipe/" + r.user + "/" + r.title + ""}
+        rating={r.rating}
       />
     );
   });
 }
 
-export async function getServerSideProps(context) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
   if (session === null) {
     return { props: {} };
   }
-  let arr = [];
-  const recipe = await prisma.recipe.findMany({
+  const recipes: Recipe[] = await prisma.recipe.findMany({
     where: {
       user: session.user.name,
     },
-    take: 50,
+    take: 20,
     orderBy: { rating: "desc" },
   });
-  recipe.forEach((curr) => {
-    arr.push([
-      curr.title,
-      curr.image,
-      curr.user,
-      curr.recipeName,
-      curr.description,
-      curr.rating,
-    ]);
-  });
-  return { props: { list: arr } };
-}
+  return { props: { recipes } };
+};
