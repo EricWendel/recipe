@@ -1,6 +1,6 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 
-export default function Login() {
+const Login = () => {
   const { data: session } = useSession();
   if (session) {
     return (
@@ -15,7 +15,7 @@ export default function Login() {
           </a>
           <button
             className="inline-block text-sm ml-2 px-2 py-2 leading-none border rounded text-white bg-gray-800 mt-4 md:mt-0"
-            onClick={() => signOut("google")}
+            onClick={() => signOut()}
           >
             <img className="h-6 rounded" src="logout.png" />
           </button>
@@ -36,4 +36,5 @@ export default function Login() {
       </div>
     </>
   );
-}
+};
+export default Login;
