@@ -9,13 +9,13 @@ const recipePage: NextPage<{ recipe: Recipe }> = ({ recipe }) => {
   return (
     <div className="bg-gray-100 min-h-screen">
       <Head>
-        <title>{recipe.recipeName}</title>
+        <title>{recipe.title}</title>
         <meta name="description" content="A new recipe to try today!" />
       </Head>
       <Navbar />
       <div className="flex justify-center p-4">
         <div>
-          <h1 className="text-6xl mb-4">{recipe.recipeName}</h1>
+          <h1 className="text-6xl mb-4">{recipe.title}</h1>
           <div className="my-2 mx-1">
             <p className="text-xl">Posted by: {recipe.user}</p>
             <p className="text-xl">Rating: {recipe.rating}/5</p>
