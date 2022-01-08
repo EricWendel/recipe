@@ -71,16 +71,7 @@ export default Dashboard;
 
 function recipeCards(recipes: Recipe[]) {
   return recipes.map((r) => {
-    return (
-      <Card
-        key={r.title}
-        title={r.title}
-        imglink={r.image}
-        desc={r.description}
-        path={"/recipe/" + r.user + "/" + r.title + ""}
-        rating={r.rating}
-      />
-    );
+    return <Card recipe={r} key={r.title} />;
   });
 }
 
