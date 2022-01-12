@@ -18,7 +18,7 @@ const Login: NextPage = () => {
             className="inline-block text-sm ml-2 px-2 py-2 leading-none border rounded text-white bg-gray-800 mt-4 md:mt-0"
             onClick={() => signOut()}
           >
-            <img className="h-6 rounded" src="logout.png" />
+            <img className="h-6 rounded" src="/logout.png" />
           </button>
         </div>
       </>
@@ -32,7 +32,7 @@ const Login: NextPage = () => {
           onClick={() => signIn("google")}
         >
           <p className="float-left mr-2 my-1">Sign in</p>
-          <img className="ml-2 h-6" src="googleLogo.png" />
+          <img className="ml-2 h-6" src="/googleLogo.png" />
         </button>
       </div>
     </>
