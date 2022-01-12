@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { prisma } from "../db/index";
-import Navbar from "./components/Navbar.js";
+import Navbar from "./components/Navbar";
 import Card from "./components/Card";
 import { GetServerSideProps, NextPage } from "next";
 import { Recipe } from "@prisma/client";
