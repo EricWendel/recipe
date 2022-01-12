@@ -1,10 +1,10 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { Fragment } from "react/cjs/react.production.min";
 import { useSession, getSession } from "next-auth/react";
 import Navbar from "./components/Navbar";
+import { Recipe } from "@prisma/client";
 
-export default function RecipeMaker() {
+const RecipeMaker = () => {
   const router = useRouter();
   const addRecipe = async (event) => {
     if (
@@ -13,18 +13,22 @@ export default function RecipeMaker() {
       event.target.image.value != ""
     ) {
       event.preventDefault();
+      let r: Recipe = {
+        id: undefined,
+        title: event.target.title.value,
+        recipeName: event.target.title.value.replace(/ /g, ""),
+        user: session.user.name,
+        email: session.user.email,
+        image: event.target.image.value,
+        description: event.target.desc.value,
+        rating: 0,
+      };
       const res = await fetch("/api/postRecipe", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          title: event.target.title.value,
-          user: session.user.name,
-          email: session.user.email,
-          image: event.target.image.value,
-          desc: event.target.desc.value,
-        }),
+        body: JSON.stringify({ r }),
       });
     } else {
       alert("Cannot leave fields blank");
@@ -33,10 +37,6 @@ export default function RecipeMaker() {
   };
 
   const { data: session, status } = useSession();
-
-  // if (status === "loading") {
-  //   return <p>Loading...</p>;
-  // }
 
   if (status === "unauthenticated") {
     return (
@@ -77,7 +77,6 @@ export default function RecipeMaker() {
           <label className="text-md">Description</label>
           <textarea
             name="desc"
-            type="text"
             className="border border-gray-500 p-1 w-full mb-6  shadow-md rounded-md focus:outline-none focus:border-teal-400 focus:ring-2"
           />
           <div className="flex justify-center">
@@ -92,4 +91,5 @@ export default function RecipeMaker() {
       </div>
     </div>
   );
-}
+};
+export default RecipeMaker;

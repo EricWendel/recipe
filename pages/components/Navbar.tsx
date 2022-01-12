@@ -1,7 +1,8 @@
+import { NextPage } from "next";
 import React from "react";
 import Login from "./Login";
 
-export default function Navbar() {
+const Navbar: NextPage = () => {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   return (
     <>
@@ -55,4 +56,5 @@ export default function Navbar() {
       </nav>
     </>
   );
-}
+};
+export default Navbar;
