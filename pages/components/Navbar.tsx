@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import Link from "next/link";
 import React from "react";
 import Login from "./Login";
 
@@ -8,7 +9,7 @@ const Navbar: NextPage = () => {
     <>
       <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-4 sticky top-0 z-50">
         <div className="flex items-center flex-shrink-0 text-white mr-6">
-          <img className="h-10 w-10" src="/recipeLogoTransparent.png" />
+          <img className="h-10 w-10" src="/recipeLogoTransparent.png" alt="" />
           <span className="font-semibold text-xl">Recipes</span>
         </div>
         <div className="block md:hidden">
@@ -33,18 +34,16 @@ const Navbar: NextPage = () => {
           }
         >
           <div className="text-sm md:flex-grow">
-            <a
-              href="/"
-              className="block mt-4 md:inline-block md:mt-0 text-teal-200 hover:text-white mr-4"
-            >
-              Home
-            </a>
-            <a
-              href="/dashboard"
-              className="block mt-4 md:inline-block md:mt-0 text-teal-200 hover:text-white mr-4"
-            >
-              Dashboard
-            </a>
+            <Link href="/" passHref>
+              <p className="block mt-4 md:inline-block md:mt-0 text-teal-200 hover:text-white mr-4 cursor-pointer">
+                Home
+              </p>
+            </Link>
+            <Link href="/dashboard" passHref>
+              <p className="block mt-4 md:inline-block md:mt-0 text-teal-200 hover:text-white mr-4 cursor-pointer">
+                Dashboard
+              </p>
+            </Link>
             <div className="md:hidden">
               <Login />
             </div>

@@ -24,6 +24,7 @@ const recipePage: NextPage<{ recipe: Recipe }> = ({ recipe }) => {
           <img
             className="max-h-80 rounded-xl object-cover shadow-md"
             src={recipe.image}
+            alt="Recipe Image"
           />
           <h1 className="text-4xl my-4">Ingredients...</h1>
           <h1 className="text-4xl my-4">Directions...</h1>
