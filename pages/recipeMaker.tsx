@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useSession, getSession } from "next-auth/react";
 import Navbar from "./components/Navbar";
 import { Recipe } from "@prisma/client";
+import { FormEvent, useState } from "react";
 
 const RecipeMaker = () => {
   const router = useRouter();
@@ -37,6 +38,25 @@ const RecipeMaker = () => {
   };
 
   const { data: session, status } = useSession();
+
+  const [imgSource, setImgSource] = useState<string>();
+
+  const handleOnChange = (changeEvent) => {
+    console.log("change");
+    const reader = new FileReader();
+    reader.onload = (onLoadEvent) => {
+      let res = onLoadEvent.target.result;
+      if (typeof res !== "string") {
+        res = res.toString();
+      }
+      setImgSource(res);
+    };
+    if (changeEvent.target.files[0] === undefined) {
+      setImgSource("");
+    } else {
+      reader.readAsDataURL(changeEvent.target.files[0]);
+    }
+  };
 
   if (status === "unauthenticated") {
     return (
@@ -74,6 +94,14 @@ const RecipeMaker = () => {
             type="text"
             className="border border-gray-500 p-1 w-full mb-6  shadow-md rounded-md focus:outline-none focus:border-teal-400 focus:ring-2"
           />
+          <label className="text-md">Image Upload</label>
+          <input
+            onChange={handleOnChange}
+            name="file"
+            type="file"
+            className="border border-gray-500 p-1 w-full mb-6  shadow-md rounded-md focus:outline-none focus:border-teal-400 focus:ring-2"
+          />
+          <img src={imgSource} alt="" />
           <label className="text-md">Description</label>
           <textarea
             name="desc"
