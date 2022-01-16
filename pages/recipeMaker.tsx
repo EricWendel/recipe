@@ -4,58 +4,47 @@ import { useSession, getSession } from "next-auth/react";
 import Navbar from "./components/Navbar";
 import { Recipe } from "@prisma/client";
 import { FormEvent, useState } from "react";
+import { GetServerSideProps } from "next";
 
-const RecipeMaker = () => {
+const RecipeMaker = (props) => {
   const router = useRouter();
-  const addRecipe = async (event) => {
-    if (
-      event.target.title.value != "" &&
-      event.target.desc.value != "" &&
-      event.target.image.value != ""
-    ) {
-      event.preventDefault();
-      let r: Recipe = {
-        id: undefined,
-        title: event.target.title.value,
-        recipeName: event.target.title.value.replace(/ /g, ""),
-        user: session.user.name,
-        email: session.user.email,
-        image: event.target.image.value,
-        description: event.target.desc.value,
-        rating: 0,
-      };
-      const res = await fetch("/api/postRecipe", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ r }),
-      });
-    } else {
-      alert("Cannot leave fields blank");
-    }
-    router.push("/dashboard");
-  };
 
   const { data: session, status } = useSession();
 
   const [imgSource, setImgSource] = useState<string>();
 
-  const handleOnChange = (changeEvent) => {
-    console.log("change");
+  const handleOnChange = (event) => {
     const reader = new FileReader();
     reader.onload = (onLoadEvent) => {
-      let res = onLoadEvent.target.result;
-      if (typeof res !== "string") {
-        res = res.toString();
-      }
-      setImgSource(res);
+      setImgSource(onLoadEvent.target.result as string);
     };
-    if (changeEvent.target.files[0] === undefined) {
-      setImgSource("");
+    if (event.target.files[0] !== undefined) {
+      reader.readAsDataURL(event.target.files[0]);
     } else {
-      reader.readAsDataURL(changeEvent.target.files[0]);
+      setImgSource("");
     }
+  };
+
+  const handleOnSubmit = async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const fileInput = Array.from<HTMLFormElement>(form.elements).find(
+      ({ name }) => name === "file"
+    );
+    const formData = new FormData();
+    console.log(fileInput);
+    if (fileInput != undefined) {
+      for (const file of fileInput.files) {
+        formData.append("file", file);
+        console.log(file);
+      }
+    }
+    formData.append("upload_preset", "recipe-images");
+    const data = await fetch(props.CLOUDINARY_URL, {
+      method: "POST",
+      body: formData,
+    }).then((r) => r.json());
+    console.log(data.secure_url);
   };
 
   if (status === "unauthenticated") {
@@ -80,7 +69,7 @@ const RecipeMaker = () => {
       <div className="w-full flex justify-center">
         <form
           className="border border-gray-500 p-10 shadow-lg w-11/12 md:w-1/2 lg:w-1/3 rounded-md bg-white"
-          onSubmit={addRecipe}
+          onSubmit={handleOnSubmit}
         >
           <label className="text-md">Title</label>
           <input
@@ -97,11 +86,12 @@ const RecipeMaker = () => {
           <label className="text-md">Image Upload</label>
           <input
             onChange={handleOnChange}
+            accept=".jpg, .png, .jpeg"
             name="file"
             type="file"
             className="border border-gray-500 p-1 w-full mb-6  shadow-md rounded-md focus:outline-none focus:border-teal-400 focus:ring-2"
           />
-          <img src={imgSource} alt="" />
+          <img src={imgSource} />
           <label className="text-md">Description</label>
           <textarea
             name="desc"
@@ -111,6 +101,7 @@ const RecipeMaker = () => {
             <button
               type="submit"
               className="h-10 px-6 font-semibold rounded-lg border border-gray-500 w-1/2"
+              disabled={!imgSource}
             >
               Publish
             </button>
@@ -121,3 +112,11 @@ const RecipeMaker = () => {
   );
 };
 export default RecipeMaker;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return {
+    props: {
+      CLOUDINARY_URL: process.env.CLOUDINARY_URL,
+    },
+  };
+};

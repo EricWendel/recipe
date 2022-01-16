@@ -12,3 +12,4 @@
     NEXTAUTH_SECRET= generate and copy/paste using $ openssl rand -base64 32
     DATABASE_URL= url of postgresql database with "?connect_timeout=300" added to the end
     SHADOW_DATABASE_URL= a second postgress database url
+    CLOUDINARY_URL= "https://api.cloudinary.com/v1_1/####/image/upload"   where #### is your cloudinary app name
