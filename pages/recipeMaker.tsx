@@ -3,15 +3,16 @@ import { useRouter } from "next/router";
 import { useSession, getSession } from "next-auth/react";
 import Navbar from "./components/Navbar";
 import { Recipe } from "@prisma/client";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { GetServerSideProps } from "next";
+import Image from "next/image";
 
 const RecipeMaker = (props) => {
   const router = useRouter();
 
   const { data: session, status } = useSession();
 
-  const [imgSource, setImgSource] = useState<string>();
+  const [imgSource, setImgSource] = useState<string>("/uploadImage.png");
   const [title, setTitle] = useState<string>();
   const [description, setDescription] = useState<string>();
 
@@ -23,7 +24,7 @@ const RecipeMaker = (props) => {
     if (event.target.files[0] !== undefined) {
       reader.readAsDataURL(event.target.files[0]);
     } else {
-      setImgSource("");
+      setImgSource("/uploadImage.png");
     }
   };
 
@@ -117,7 +118,9 @@ const RecipeMaker = (props) => {
             <button
               type="submit"
               className="h-10 px-6 font-semibold rounded-lg border border-gray-500 w-1/2"
-              disabled={!imgSource || !description || !title}
+              disabled={
+                imgSource === "/uploadImage.png" || !description || !title
+              }
             >
               Publish
             </button>

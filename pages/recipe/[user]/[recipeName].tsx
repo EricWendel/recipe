@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar";
 import { GetStaticProps, NextPage } from "next";
 import { Recipe } from "@prisma/client";
 import { ParsedUrlQuery } from "querystring";
+import Image from "next/image";
 
 const recipePage: NextPage<{ recipe: Recipe }> = ({ recipe }) => {
   return (
@@ -21,8 +22,10 @@ const recipePage: NextPage<{ recipe: Recipe }> = ({ recipe }) => {
             <p className="text-xl">Rating: {recipe.rating}/5</p>
             <p className="text-m my-4">{recipe.description}</p>
           </div>
-          <img
+          <Image
             className="max-h-80 rounded-xl object-cover shadow-md"
+            height={320}
+            width={480}
             src={recipe.image}
             alt="Recipe Image"
           />

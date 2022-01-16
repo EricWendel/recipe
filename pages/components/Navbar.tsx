@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import Link from "next/link";
 import React from "react";
 import Login from "./Login";
+import Image from "next/image";
 
 const Navbar: NextPage = () => {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
@@ -9,7 +10,13 @@ const Navbar: NextPage = () => {
     <>
       <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-4 sticky top-0 z-50">
         <div className="flex items-center flex-shrink-0 text-white mr-6">
-          <img className="h-10 w-10" src="/recipeLogoTransparent.png" alt="" />
+          <Image
+            className="h-10 w-10"
+            height={40}
+            width={40}
+            src="/recipeLogoTransparent.png"
+            alt=""
+          />
           <span className="font-semibold text-xl">Recipes</span>
         </div>
         <div className="block md:hidden">

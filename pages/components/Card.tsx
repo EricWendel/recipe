@@ -17,8 +17,10 @@ const Card: NextPage<{ recipe: Recipe }> = ({ recipe }) => {
           key={recipe.title}
           className="max-w-sm rounded overflow-hidden shadow-lg p-1 hover:cursor-pointer m-2 bg-white"
         >
-          <img
+          <Image
             className="w-80 object-cover h-80"
+            height={320}
+            width={320}
             src={recipe.image}
             alt={recipe.title}
           />

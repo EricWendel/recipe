@@ -1,8 +1,9 @@
 import { NextPage } from "next";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
+import Image from "next/image";
 
-const Login: NextPage = () => {
+const Login: NextPage = (props) => {
   const { data: session } = useSession();
   if (session) {
     return (
@@ -11,8 +12,10 @@ const Login: NextPage = () => {
           <Link href="/dashboard" passHref>
             <div className="inline-block text-sm px-4 py-2 leading-none border rounded text-white bg-gray-800 mt-4 md:mt-0">
               <p className="float-left mr-2 my-1">{session.user.name}</p>
-              <img
+              <Image
                 className="ml-2 h-6 rounded-full"
+                height={24}
+                width={24}
                 src={session.user.image}
                 alt="user img"
               />
@@ -22,7 +25,13 @@ const Login: NextPage = () => {
             className="inline-block text-sm ml-2 px-2 py-2 leading-none border rounded text-white bg-gray-800 mt-4 md:mt-0"
             onClick={() => signOut()}
           >
-            <img className="h-6 rounded" src="/logout.png" alt="logout" />
+            <Image
+              className="h-6 rounded"
+              height={24}
+              width={24}
+              src="/logout.png"
+              alt="logout"
+            />
           </button>
         </div>
       </>
@@ -36,7 +45,13 @@ const Login: NextPage = () => {
           onClick={() => signIn("google")}
         >
           <p className="float-left mr-2 my-1">Sign in</p>
-          <img className="ml-2 h-6" src="/googleLogo.png" alt="google" />
+          <Image
+            className="ml-2 h-6"
+            height={24}
+            width={24}
+            src="/googleLogo.png"
+            alt="google"
+          />
         </button>
       </div>
     </>
