@@ -7,7 +7,7 @@ import { Recipe } from "@prisma/client";
 
 const Home: NextPage<{ recipes: Recipe[] }> = ({ recipes }) => {
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 min-h-screen">
       <Head>
         <title>Recipes</title>
         <meta name="description" content="View and publish new recipes!" />
