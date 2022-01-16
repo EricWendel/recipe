@@ -12,6 +12,8 @@ const RecipeMaker = (props) => {
   const { data: session, status } = useSession();
 
   const [imgSource, setImgSource] = useState<string>();
+  const [title, setTitle] = useState<string>();
+  const [description, setDescription] = useState<string>();
 
   const handleOnChange = (event) => {
     const reader = new FileReader();
@@ -45,6 +47,24 @@ const RecipeMaker = (props) => {
       body: formData,
     }).then((r) => r.json());
     console.log(data.secure_url);
+    const r: Recipe = {
+      id: undefined,
+      title: title,
+      recipeName: title.replace(/ /g, ""),
+      user: session.user.name,
+      email: session.user.email,
+      image: data.secure_url,
+      description: description,
+      rating: 0,
+    };
+    const res = await fetch("/api/postRecipe", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ r }),
+    });
+    router.push("/dashboard");
   };
 
   if (status === "unauthenticated") {
@@ -76,12 +96,7 @@ const RecipeMaker = (props) => {
             name="title"
             type="text"
             className="border border-gray-500 p-1 w-full mb-6  shadow-md rounded-md focus:outline-none focus:border-teal-400 focus:ring-2"
-          />
-          <label className="text-md">Image Link</label>
-          <input
-            name="image"
-            type="text"
-            className="border border-gray-500 p-1 w-full mb-6  shadow-md rounded-md focus:outline-none focus:border-teal-400 focus:ring-2"
+            onChange={(e) => setTitle(e.target.value)}
           />
           <label className="text-md">Image Upload</label>
           <input
@@ -91,17 +106,18 @@ const RecipeMaker = (props) => {
             type="file"
             className="border border-gray-500 p-1 w-full mb-6  shadow-md rounded-md focus:outline-none focus:border-teal-400 focus:ring-2"
           />
-          <img src={imgSource} />
+          <img src={imgSource} alt="" />
           <label className="text-md">Description</label>
           <textarea
             name="desc"
             className="border border-gray-500 p-1 w-full mb-6  shadow-md rounded-md focus:outline-none focus:border-teal-400 focus:ring-2"
+            onChange={(e) => setDescription(e.target.value)}
           />
           <div className="flex justify-center">
             <button
               type="submit"
               className="h-10 px-6 font-semibold rounded-lg border border-gray-500 w-1/2"
-              disabled={!imgSource}
+              disabled={!imgSource || !description || !title}
             >
               Publish
             </button>
