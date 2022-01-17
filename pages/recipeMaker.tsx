@@ -16,6 +16,9 @@ const RecipeMaker = (props) => {
   const [title, setTitle] = useState<string>();
   const [description, setDescription] = useState<string>();
   const [uploading, setUploading] = useState<boolean>(false);
+  const [ingredientForm, setIngredientForm] = useState([
+    { ingredient: "", amount: "", units: "" },
+  ]);
 
   const handleOnChange = (event) => {
     const reader = new FileReader();
@@ -71,6 +74,26 @@ const RecipeMaker = (props) => {
     router.push("/dashboard");
   };
 
+  const addFormField = () => {
+    setIngredientForm([
+      ...ingredientForm,
+      { ingredient: "", amount: "", units: "" },
+    ]);
+  };
+
+  const removeFormField = (i) => {
+    let newIngredientForm = [...ingredientForm];
+    newIngredientForm.splice(i, 1);
+    setIngredientForm(newIngredientForm);
+    console.log(i);
+  };
+
+  const ingredientChange = (i, e) => {
+    let newIngredientForm = [...ingredientForm];
+    newIngredientForm[i][e.target.name] = e.target.value;
+    setIngredientForm(newIngredientForm);
+  };
+
   if (status === "unauthenticated") {
     return (
       <div className="bg-gray-100 min-h-screen">
@@ -117,10 +140,38 @@ const RecipeMaker = (props) => {
             className="border border-gray-500 p-1 w-full mb-6  shadow-md rounded-md focus:outline-none focus:border-teal-400 focus:ring-2"
             onChange={(e) => setDescription(e.target.value)}
           />
+
+          <label className="text-md">Ingredients</label>
+          <button
+            className="mx-2 px-3 rounded-lg border border-gray-500"
+            type="button"
+            onClick={() => addFormField()}
+          >
+            Add
+          </button>
+          {ingredientForm.map((e, i) => (
+            <div key={i}>
+              <input
+                name="ingredient"
+                type="text"
+                className="border border-gray-500 p-1 w-11/12 my-2  shadow-md rounded-l-md focus:outline-none focus:border-teal-400 focus:ring-2"
+                value={e.ingredient || ""}
+                onChange={(e) => ingredientChange(i, e)}
+              />
+              <button
+                type="button"
+                className="w-1/12 p-1 my-2 float-right rounded-r-md border border-gray-500 bg-red-400"
+                onClick={(e) => removeFormField(i)}
+              >
+                X
+              </button>
+            </div>
+          ))}
+
           <div className="flex justify-center">
             <button
               type="submit"
-              className="h-10 px-6 font-semibold rounded-lg border border-gray-500 w-1/2"
+              className="h-10 mt-5 px-6 font-semibold rounded-lg border border-gray-500 w-1/2"
               disabled={
                 imgSource === "/uploadImage.png" ||
                 !description ||
