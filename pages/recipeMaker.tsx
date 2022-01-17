@@ -15,6 +15,7 @@ const RecipeMaker = (props) => {
   const [imgSource, setImgSource] = useState<string>("/uploadImage.png");
   const [title, setTitle] = useState<string>();
   const [description, setDescription] = useState<string>();
+  const [uploading, setUploading] = useState<boolean>(false);
 
   const handleOnChange = (event) => {
     const reader = new FileReader();
@@ -30,6 +31,7 @@ const RecipeMaker = (props) => {
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
+    setUploading(true);
     const form = event.currentTarget;
     const fileInput = Array.from<HTMLFormElement>(form.elements).find(
       ({ name }) => name === "file"
@@ -65,6 +67,7 @@ const RecipeMaker = (props) => {
       },
       body: JSON.stringify({ r }),
     });
+    setUploading(false);
     router.push("/dashboard");
   };
 
@@ -119,7 +122,10 @@ const RecipeMaker = (props) => {
               type="submit"
               className="h-10 px-6 font-semibold rounded-lg border border-gray-500 w-1/2"
               disabled={
-                imgSource === "/uploadImage.png" || !description || !title
+                imgSource === "/uploadImage.png" ||
+                !description ||
+                !title ||
+                uploading
               }
             >
               Publish
