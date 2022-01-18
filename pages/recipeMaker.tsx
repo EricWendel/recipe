@@ -17,7 +17,7 @@ const RecipeMaker = (props) => {
   const [description, setDescription] = useState<string>();
   const [uploading, setUploading] = useState<boolean>(false);
   const [ingredientForm, setIngredientForm] = useState([
-    { ingredient: "", amount: 0, units: "" },
+    { ingredient: "", amount: 0, unit: "" },
   ]);
 
   const handleOnChange = (event) => {
@@ -74,17 +74,17 @@ const RecipeMaker = (props) => {
   const addFormField = () => {
     setIngredientForm([
       ...ingredientForm,
-      { ingredient: "", amount: 1, units: "" },
+      { ingredient: "", amount: 1, unit: "" },
     ]);
   };
 
-  const removeFormField = (i) => {
+  const removeFormField = (i: number): void => {
     let newIngredientForm = [...ingredientForm];
     newIngredientForm.splice(i, 1);
     setIngredientForm(newIngredientForm);
   };
 
-  const ingredientChange = (i, e) => {
+  const ingredientChange = (i: number, e): void => {
     let newIngredientForm = [...ingredientForm];
     newIngredientForm[i][e.target.name] = e.target.value;
     setIngredientForm(newIngredientForm);
@@ -167,11 +167,11 @@ const RecipeMaker = (props) => {
                 onChange={(e) => ingredientChange(i, e)}
               />
               <input
-                name="units"
+                name="unit"
                 type="string"
                 placeholder="Unit"
                 className="border border-gray-500 p-1 w-3/12 my-2  shadow-md focus:outline-none focus:border-teal-400 focus:ring-2"
-                value={e.units || ""}
+                value={e.unit || ""}
                 onChange={(e) => ingredientChange(i, e)}
               />
               <button

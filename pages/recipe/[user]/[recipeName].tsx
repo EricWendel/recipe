@@ -2,11 +2,13 @@ import Head from "next/head";
 import { prisma } from "../../../db/index";
 import Navbar from "../../components/Navbar";
 import { GetStaticProps, NextPage } from "next";
-import { Recipe } from "@prisma/client";
+import { Ingredient, Recipe } from "@prisma/client";
 import { ParsedUrlQuery } from "querystring";
 import Image from "next/image";
 
-const recipePage: NextPage<{ recipe: Recipe }> = ({ recipe }) => {
+const recipePage: NextPage<{
+  recipe: Recipe & { ingredients: Ingredient[] };
+}> = ({ recipe }) => {
   return (
     <div className="bg-gray-100 min-h-screen">
       <Head>
@@ -30,6 +32,11 @@ const recipePage: NextPage<{ recipe: Recipe }> = ({ recipe }) => {
             alt="Recipe Image"
           />
           <h1 className="text-4xl my-4">Ingredients...</h1>
+          {recipe.ingredients.map((r) => (
+            <p key={r.id}>
+              {r.amount}|{r.unit}|{r.ingredient}
+            </p>
+          ))}
           <h1 className="text-4xl my-4">Directions...</h1>
         </div>
       </div>
@@ -62,6 +69,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       recipeName: recipeName,
       user: user,
     },
+    include: { ingredients: true },
   });
 
   if (recipe === null) {
@@ -74,6 +82,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       image: "404",
       description: "404",
       rating: 404,
+      ingredients: [],
     };
     return {
       props: { recipe },

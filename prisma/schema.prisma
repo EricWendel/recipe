@@ -20,6 +20,15 @@ model Recipe {
   image String
   description String
   rating Float
+  ingredients Ingredient[]
+}
+
+model Ingredient {
+  id String @id @default(cuid())
+  ingredient String
+  amount Float
+  unit String
+  recipes Recipe[]
 }
 
 model Account {
