@@ -17,7 +17,7 @@ const RecipeMaker = (props) => {
   const [description, setDescription] = useState<string>();
   const [uploading, setUploading] = useState<boolean>(false);
   const [ingredientForm, setIngredientForm] = useState([
-    { ingredient: "", amount: "", units: "" },
+    { ingredient: "", amount: 0, units: "" },
   ]);
 
   const handleOnChange = (event) => {
@@ -40,11 +40,9 @@ const RecipeMaker = (props) => {
       ({ name }) => name === "file"
     );
     const formData = new FormData();
-    console.log(fileInput);
     if (fileInput != undefined) {
       for (const file of fileInput.files) {
         formData.append("file", file);
-        console.log(file);
       }
     }
     formData.append("upload_preset", "recipe-images");
@@ -52,7 +50,6 @@ const RecipeMaker = (props) => {
       method: "POST",
       body: formData,
     }).then((r) => r.json());
-    console.log(data.secure_url);
     const r: Recipe = {
       id: undefined,
       title: title,
@@ -77,7 +74,7 @@ const RecipeMaker = (props) => {
   const addFormField = () => {
     setIngredientForm([
       ...ingredientForm,
-      { ingredient: "", amount: "", units: "" },
+      { ingredient: "", amount: 1, units: "" },
     ]);
   };
 
@@ -85,7 +82,6 @@ const RecipeMaker = (props) => {
     let newIngredientForm = [...ingredientForm];
     newIngredientForm.splice(i, 1);
     setIngredientForm(newIngredientForm);
-    console.log(i);
   };
 
   const ingredientChange = (i, e) => {
@@ -122,6 +118,7 @@ const RecipeMaker = (props) => {
           <input
             name="title"
             type="text"
+            placeholder="Recipe name"
             className="border border-gray-500 p-1 w-full mb-6  shadow-md rounded-md focus:outline-none focus:border-teal-400 focus:ring-2"
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -133,36 +130,55 @@ const RecipeMaker = (props) => {
             type="file"
             className="border border-gray-500 p-1 w-full mb-6  shadow-md rounded-md focus:outline-none focus:border-teal-400 focus:ring-2"
           />
-          <img src={imgSource} alt="" />
+          <img src={imgSource} alt="" className="mx-auto mb-4 " />
           <label className="text-md">Description</label>
           <textarea
             name="desc"
+            placeholder="About the recipe"
             className="border border-gray-500 p-1 w-full mb-6  shadow-md rounded-md focus:outline-none focus:border-teal-400 focus:ring-2"
             onChange={(e) => setDescription(e.target.value)}
           />
 
           <label className="text-md">Ingredients</label>
           <button
-            className="mx-2 px-3 rounded-lg border border-gray-500"
+            className="px-3 rounded-lg border border-gray-500 float-right bg-teal-400"
             type="button"
             onClick={() => addFormField()}
           >
             Add
           </button>
           {ingredientForm.map((e, i) => (
-            <div key={i}>
-              <label className="w-1/12 p-1 my-2 float-left">{i + 1}</label>
+            <div key={i} className="mt-2">
               <input
                 name="ingredient"
                 type="text"
-                className="border border-gray-500 p-1 w-10/12 my-2  shadow-md rounded-l-md focus:outline-none focus:border-teal-400 focus:ring-2"
+                placeholder="Ingredient"
+                className="border border-gray-500 p-1 w-6/12 my-2  shadow-md rounded-l-md focus:outline-none focus:border-teal-400 focus:ring-2"
                 value={e.ingredient || ""}
+                onChange={(e) => ingredientChange(i, e)}
+              />
+              <input
+                name="amount"
+                type="number"
+                min={0}
+                max={99}
+                className="border border-gray-500 p-1 w-2/12 my-2  shadow-md focus:outline-none focus:border-teal-400 focus:ring-2"
+                value={e.amount || 1}
+                onChange={(e) => ingredientChange(i, e)}
+              />
+              <input
+                name="units"
+                type="string"
+                placeholder="Unit"
+                className="border border-gray-500 p-1 w-3/12 my-2  shadow-md focus:outline-none focus:border-teal-400 focus:ring-2"
+                value={e.units || ""}
                 onChange={(e) => ingredientChange(i, e)}
               />
               <button
                 type="button"
-                className="w-1/12 p-1 my-2 float-right rounded-r-md border border-gray-500 bg-red-400"
+                className="w-1/12 p-1 my-2 float-right rounded-r-md border border-gray-500 bg-rose-500 disabled:bg-gray-400"
                 onClick={(e) => removeFormField(i)}
+                disabled={i === 0 && ingredientForm.length === 1}
               >
                 X
               </button>
@@ -172,6 +188,7 @@ const RecipeMaker = (props) => {
             <label className="text-md">Instructions</label>
             <textarea
               name="instructions"
+              placeholder="How to make the recipe"
               className="border border-gray-500 p-1 w-full mb-6  shadow-md rounded-md focus:outline-none focus:border-teal-400 focus:ring-2"
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -180,7 +197,7 @@ const RecipeMaker = (props) => {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="h-10 mt-5 px-6 font-semibold rounded-lg border border-gray-500 w-1/2"
+              className="h-10 mt-5 px-6 font-semibold rounded-lg border border-gray-500 w-1/2 disabled:bg-gray-400 bg-teal-400"
               disabled={
                 imgSource === "/uploadImage.png" ||
                 !description ||
