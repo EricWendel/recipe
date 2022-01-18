@@ -151,10 +151,11 @@ const RecipeMaker = (props) => {
           </button>
           {ingredientForm.map((e, i) => (
             <div key={i}>
+              <label className="w-1/12 p-1 my-2 float-left">{i + 1}</label>
               <input
                 name="ingredient"
                 type="text"
-                className="border border-gray-500 p-1 w-11/12 my-2  shadow-md rounded-l-md focus:outline-none focus:border-teal-400 focus:ring-2"
+                className="border border-gray-500 p-1 w-10/12 my-2  shadow-md rounded-l-md focus:outline-none focus:border-teal-400 focus:ring-2"
                 value={e.ingredient || ""}
                 onChange={(e) => ingredientChange(i, e)}
               />
@@ -167,6 +168,14 @@ const RecipeMaker = (props) => {
               </button>
             </div>
           ))}
+          <div className="mt-4">
+            <label className="text-md">Instructions</label>
+            <textarea
+              name="instructions"
+              className="border border-gray-500 p-1 w-full mb-6  shadow-md rounded-md focus:outline-none focus:border-teal-400 focus:ring-2"
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
 
           <div className="flex justify-center">
             <button
